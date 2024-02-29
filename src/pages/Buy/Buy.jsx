@@ -36,14 +36,40 @@ import { useNavigate } from 'react-router-dom';
 
 
 
-const data = await get(`/game`);
+
 
 
 
 
 export default function Library() {
+
     const [alertVisible, setAlertVisible] = useState(false);
+    const[image,setImage] = useState('');
+    const[title,setTitle] = useState('');
     const navigate = useNavigate();
+
+    useEffect(() => {
+        fetchData();
+      }, []);
+    
+      const fetchData = async () => {
+        try {
+          const data1 = await get(`/game`);
+          const game_id = localStorage.getItem('game_id');
+          setImage(data1[game_id- 1].image_base64)
+          setTitle(data1[game_id- 1].title)
+
+          console.log(data1);
+        } catch (error) {
+          console.error('Error fetching data:', error);
+    
+        }
+      };
+    
+      useEffect(() => {
+      
+      }, [title,image]);
+
     const handleBuy = () => {
 
         const user_id = localStorage.getItem('user_id');
@@ -68,11 +94,11 @@ export default function Library() {
                 <Typography sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
                     <CardMedia
                         sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', padding: '5%', height: 200, width: 300 }}
-                        image={data[localStorage.getItem('game_id') - 1].image_base64}
+                        image={image}
                         title="Game Image"
                         component='img'
                     />
-                    <Typography>{data[localStorage.getItem('game_id') - 1].title} </Typography>
+                    <Typography>{title} </Typography>
 
                 </Typography>
                 <Typography sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>

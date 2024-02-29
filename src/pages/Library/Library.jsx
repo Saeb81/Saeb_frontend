@@ -72,7 +72,7 @@ function GameCard({ base64, title, id }) {
 
 
 export default function Library() {
-  let storedUserId = 0;
+
 
 
   const fetchData = async () => {
