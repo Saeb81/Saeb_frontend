@@ -1,0 +1,9 @@
+.store
+{
+    display: flex;
+    flex-direction: column;
+    color: white;
+    background-image: url("e.jpg") ;
+    padding: 10%;
+    height: auto;
+}

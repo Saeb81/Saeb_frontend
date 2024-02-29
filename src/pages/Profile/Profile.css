@@ -1,0 +1,8 @@
+.setting
+{
+    display: flex;
+    flex-direction: column;
+    color: white;
+    background-image: url("d.jpg") ;
+    padding: 10%;
+}

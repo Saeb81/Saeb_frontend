@@ -1,0 +1,27 @@
+.page {
+ 
+    /* background-color: darkseagreen; */
+    display: flex;
+    justify-content: center;
+
+    background-image: url("a.jpg") ;
+    height: 720px;
+    padding: 10%;
+}
+
+.body {
+    display: flex;
+    flex-direction: column;
+  margin-top: 100px;
+    background-color: inherit;
+    max-width: 400px;
+    margin: 0 auto;
+    padding: 100px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+.in
+{
+  display: flex ;
+  color: blanchedalmond;
+}

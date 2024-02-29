@@ -1,0 +1,10 @@
+.games
+{
+    display: flex;
+    background-image: url("f.jpg") ;
+    padding: 10%;
+    height: auto;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
