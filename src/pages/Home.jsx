@@ -34,12 +34,12 @@ import { useNavigate } from 'react-router-dom';
 function renderMenu() {
   const menuId = 'primary-search-account-menu';
   return (
-   
-      <Container sx={{ display: 'flex', flexDirection: 'column', padding: '15%' }}>
-        <Link to="/Profile"><MenuItem>Profile</MenuItem></Link>
 
-        <Link to="/"> <MenuItem>SignOut</MenuItem> </Link>
-      </Container>
+    <Container sx={{ display: 'flex', flexDirection: 'column', padding: '15%' }}>
+      <Link to="/Profile"><MenuItem>Profile</MenuItem></Link>
+
+      <Link to="/"> <MenuItem>SignOut</MenuItem> </Link>
+    </Container>
   );
 }
 
@@ -298,6 +298,8 @@ export default function PrimarySearchAppBar() {
               <Link to="/Store"><Typography sx={{ display: 'flex', color: 'white' }} >Store</Typography></Link>
               <Link to="/Library"><Typography sx={{ display: 'flex', color: 'white' }} >Library</Typography></Link>
               <Link to="/AddGames"><Typography sx={{ display: alertVisible ? 'flex' : 'none', color: 'white' }} >Edit Games</Typography></Link>
+              <Link to="/Profile"><Typography sx={{ display: 'flex', color: 'white' }} >Profile</Typography></Link>
+              <Link to="/"> <Typography sx={{ display: 'flex', color: 'white' }} >SignOut</Typography> </Link>
 
             </Container>
 
