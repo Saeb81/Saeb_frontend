@@ -3,8 +3,7 @@
     /* background-color: darkseagreen; */
     display: flex;
     justify-content: center;
-
-    background-image: url("a.jpg") ;
+    background-image: url("/home/ubuntu/Saeb_frontend/a.jpg");
     height: 720px;
     padding: 10%;
 }
