@@ -89,7 +89,7 @@ export default function Library() {
   };
 
   useEffect(() => {
-    storedUserId = localStorage.getItem('user_id');
+
     fetchData();
   }, []);
 
