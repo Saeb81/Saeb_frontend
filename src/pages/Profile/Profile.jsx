@@ -34,7 +34,7 @@ import { get } from '../../utils/httpClient'
 import { post } from '../../utils/httpClient'
 
 import './Profile.css';
-const data = await get('/users')
+// const data = await get('/users')
 
 
 export default function Profile() {
@@ -44,22 +44,36 @@ export default function Profile() {
   const [userName, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const [email, setEmail] = useState('')
+
+
   useEffect(() => {
     profile();
-    console.log("--------------");
-    console.log(userName);
-  }, []);
-  const profile = async () => {
-    let i = 0;
-    const data = await get('/users')
-    console.log(data);
-    console.log(localStorage.getItem('user_id') - 1)
-    console.log(data[localStorage.getItem('user_id') - 1].username);
-    setUsername(data[localStorage.getItem('user_id') - 1].userName)
-    setPassword(data[localStorage.getItem('user_id') - 1].password)
-    setEmail(data[localStorage.getItem('user_id') - 1].email)
-    console.log(userName);
-  }
+    console.log("--------S------");
+}, []);
+
+const profile = async () => {
+    try {
+        const data1 = await get('/users');
+        const userId = localStorage.getItem('user_id');
+        if (data1 && userId) {
+            const userIndex = parseInt(userId) - 1;
+            setUsername(data1[userIndex].username);
+            setPassword(data1[userIndex].password);
+            setEmail(data1[userIndex].email);
+        } 
+    } catch (error) {
+      
+        console.error("Error fetching profile data:", error);
+    }
+}
+
+useEffect(() => {
+    console.log("userName changed:", userName);
+    console.log("password changed:", password);
+    console.log("email changed:", email);
+}, [userName, password, email]);
+
+
 
   const handleAccount = () => {
     setAlertVisible(true);
@@ -104,21 +118,21 @@ export default function Profile() {
             disabled
             id="standard-disabled"
             label="Disabled"
-            defaultValue=  {data[localStorage.getItem('user_id') - 1].username}
+            value={userName}
             variant="standard"
           />
           <TextField
             disabled
             id="standard-disabled"
             label="Disabled"
-            defaultValue={data[localStorage.getItem('user_id') - 1].password}
+            value={password}
             variant="standard"
           />
           <TextField
             disabled
             id="standard-disabled"
             label="Disabled"
-            defaultValue={data[localStorage.getItem('user_id') - 1].email}
+            value={email}
             variant="standard"
           />
 
@@ -128,14 +142,14 @@ export default function Profile() {
           <List sx={{ display: 'flex', flexDirection: 'row' }}>
             <Checkbox onChange={handleUpdate} {...label} />
             <Button>
-            AutoUpdate
-           </Button>
+              AutoUpdate
+            </Button>
           </List>
           <List sx={{ display: 'flex', flexDirection: 'row' }}>
             <Checkbox onChange={handleTwoStep} {...label} />
-           <Button>
-            Two Step Verfication
-           </Button>
+            <Button>
+              Two Step Verfication
+            </Button>
           </List>
 
 

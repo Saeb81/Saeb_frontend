@@ -97,10 +97,6 @@ export default function Library() {
     fetchData();
   }, []);
 
-  // useEffect(() => {
-
-  //       GameCard(data1[storedUserId-1].image_base64,data1[storedUserId-1].title,data1[storedUserId-1].description);
-  // }, [])
 
   const [userGames, setUserGames] = useState([]);
 

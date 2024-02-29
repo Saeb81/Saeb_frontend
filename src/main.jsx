@@ -7,7 +7,7 @@ import {
 import Login from './Log/Login/Login.jsx'
 import Sign from './Log/Sign/Sign.jsx'
 import Profile from './pages/Profile/Profile.jsx'
-import Home from './pages/Home.tsx'
+import Home from './pages/Home.jsx'
 import Library from './pages/Library/Library.jsx'
 import Games from './pages/Games/Games.jsx'
 import Store from './pages/Store/Store.jsx'

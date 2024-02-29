@@ -29,7 +29,7 @@ import { get } from '../utils/httpClient'
 import { post } from '../utils/httpClient'
 import { useNavigate } from 'react-router-dom';
 
-const data = await get('/game')
+// const data = await get('/game')
 
 
 
@@ -99,18 +99,19 @@ export default function PrimarySearchAppBar() {
   const [gameId1, setGameId1] = useState('')
   const [gameId2, setGameId2] = useState('')
   const [gameId3, setGameId3] = useState('')
+  const [data, setData] = useState([])
+  
 
 
-  const [userGames, setUserGames] = useState([]);
 
 
   const fetchData = async () => {
     try {
 
 
-      const data = await get(`/game`);
-      setUserGames(data);
-      console.log(data);
+      const data1 = await get(`/game`);
+      setData(data1);
+      console.log(data1);
     } catch (error) {
       console.error('Error fetching data:', error);
 
@@ -126,7 +127,7 @@ export default function PrimarySearchAppBar() {
   useEffect(() => {
     const storedUserId = localStorage.getItem('user_id');
     console.log(storedUserId);
-
+    
     if (storedUserId) {
       setUserId(storedUserId);
     }
@@ -155,7 +156,7 @@ export default function PrimarySearchAppBar() {
   }
 
 
-  const handleProfileMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
+  const handleProfileMenuOpen = (event) => {
     setAnchorEl(event.currentTarget);
   };
 
@@ -168,7 +169,7 @@ export default function PrimarySearchAppBar() {
     handleMobileMenuClose();
   };
 
-  const handleMobileMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
+  const handleMobileMenuOpen = (event) => {
     setMobileMoreAnchorEl(event.currentTarget);
   };
 
