@@ -198,14 +198,15 @@ export default function PrimarySearchAppBar() {
           placeholder="Search…"
           inputProps={{ 'aria-label': 'search' }}
         />
-        {searchGame.slice().reverse().map((game, index) => (
+        {searchGame.slice(-3).reverse().map((game, index) => (
           <SearchCard
-            key={3}
+            key={index}
             title={game.title}
             base64={game.image_base64}
             id={game.id}
           />
         ))}
+
       </Search>
 
       <Box sx={{ display: 'flex', flexGrow: 1, }}>
@@ -271,14 +272,15 @@ export default function PrimarySearchAppBar() {
           </Toolbar>
         </AppBar>
       </Box>
-      {game.slice().reverse().map((game, index) => (
+      {game.slice(-2).map((game, index) => (
         <GameCard
-          key={2}
+          key={index}
           base64={game.image_base64}
           title={game.title}
           id={game.id}
         />
       ))}
+
     </div>
   );
 }
