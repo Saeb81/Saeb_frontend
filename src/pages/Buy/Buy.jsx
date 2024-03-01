@@ -20,24 +20,16 @@ import { CardMedia } from '@mui/material';
 import React, { useState, useEffect } from 'react';
 import CardActions from '@mui/material/CardActions';
 import Button from '@mui/material/Button';
-
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
 import Divider from '@mui/material/Divider';
 import Alert from '@mui/material/Alert';
 import Stack from '@mui/material/Stack';
-
 import { Link } from 'react-router-dom';
-
 import { get } from '../../utils/httpClient'
 import { post } from '../../utils/httpClient'
 import { useNavigate } from 'react-router-dom';
-
-
-
-
-
 
 
 
@@ -76,11 +68,9 @@ export default function Library() {
         const game_id = localStorage.getItem('game_id');
         post('/library', { user_id, game_id })
         setAlertVisible(true);
-        console.log("--------------------------")
         setTimeout(() => {
-            setAlertVisible1(false);
+            setAlertVisible(false);
         }, 3000);
-        console.log("--------------------------")
         navigate('/Library')
     }
 

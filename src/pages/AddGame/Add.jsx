@@ -24,13 +24,10 @@ import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
 import Divider from '@mui/material/Divider';
-
-
 import { Link } from 'react-router-dom';
-
 import { get } from '../../utils/httpClient'
 import { post } from '../../utils/httpClient'
-
+import { useNavigate } from 'react-router-dom';
 
 
 
@@ -43,8 +40,8 @@ export default function Profile() {
     const [rate, setRate] = useState(0);
     const [description, setDescription] = useState('');
     const [title, setTitle] = useState(0);
-
-
+    const [alertVisible, setAlertVisible] = useState(false);
+    const navigate = useNavigate();
     // const [image, setImage] = useState(null);
 
 
@@ -125,7 +122,12 @@ export default function Profile() {
         console.log(gameId);
         console.log(description);
         await fetchData();
+        setAlertVisible(true);
         post('/game', { title, rate, genre, description, gameId })
+        setTimeout(() => {
+            setAlertVisible(false);
+        }, 3000);
+        navigate('/Store')
     }
 
 
@@ -166,6 +168,9 @@ export default function Profile() {
                 </Card>
                 <Button onClick={addGame} sx={{ border: 'solid black', height: 50, width: 100 }}> Add</Button>
                 <Link to='/Home'>  <Button sx={{ border: 'solid black', height: 50, width: 100 }}> cancel</Button></Link>
+                <Stack sx={{ display: alertVisible ? 'flex' : 'none', width: '100%' }} spacing={2}>
+                    <Alert sx={{ backgroundColor: 'inherit', color: 'white', border: 'solid black' }} severity="success">check your mail box.</Alert>
+                </Stack>
             </Box>
         </Container>
     </div>

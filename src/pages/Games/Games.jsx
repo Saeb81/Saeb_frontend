@@ -19,15 +19,14 @@ import { Grid, Card, CardMedia, CardContent, FormControl, Container, TextField }
 import React, { useState, useEffect } from 'react';
 import CardActions from '@mui/material/CardActions';
 import Button from '@mui/material/Button';
-
+import Alert from '@mui/material/Alert';
+import Stack from '@mui/material/Stack';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
 import Divider from '@mui/material/Divider';
-
-
+import { useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
-
 import { get } from '../../utils/httpClient'
 import { post } from '../../utils/httpClient'
 import './Games.css';
@@ -62,13 +61,12 @@ export default function Profile() {
     const [data3, setData3] = useState([]);
     const [data4, setData4] = useState([]);
     const [comment, setComment1] = useState('');
+    const [alertVisible, setAlertVisible] = useState(false);
+    const navigate = useNavigate();
 
     useEffect(() => {
-
         const storedGameId = localStorage.getItem('game_id');
-
         setGameId(storedGameId);
-
         fetchData();
         fetchData1();
         fetchData2();
@@ -128,10 +126,15 @@ export default function Profile() {
         console.log(username);
         console.log(data1.length + 1);
         await post('/comments', { username, comment, comment_id, user_id, game_id });
+        setAlertVisible(true);
+        setTimeout(() => {
+            setAlertVisible(false);
+        }, 3000);
+        navigate('/Games')
     }
 
     return <div className='games'>  <Link to="/Home"><Typography sx={{ display: 'flex', color: 'black' }} >MaveShop</Typography></Link>
-        <Container sx={{display:'flex',justifyContent:'center',alignItems:'center'}}>
+        <Container sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
             <Box sx={{ display: 'flex', flexDirection: 'column', backgroundColor: 'inherit', justifyContent: 'center', alignItems: 'center', height: 'Auto' }}>
 
                 <Card sx={{
@@ -185,6 +188,13 @@ export default function Profile() {
                         />
                     ))}
                 </Container>
+
+
+                <Stack sx={{ display: alertVisible ? 'flex' : 'none', width: '100%' }} spacing={2}>
+                    <Alert sx={{ backgroundColor: 'inherit', color: 'white', border: 'solid black' }} severity="success">check your mail box.</Alert>
+                </Stack>
+
+
             </Box>
         </Container>
     </div>
