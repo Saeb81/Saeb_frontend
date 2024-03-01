@@ -70,7 +70,7 @@ export default function Profile() {
             setError(true);
         } else {
             const rate2 = parseInt(rate1, 10);
-            if (rate2 < 0 || rate > 10) {
+            if (rate2 < 0 || rate2 > 10) {
                 setError(true);
             } else {
                 setError(false);
@@ -152,7 +152,7 @@ export default function Profile() {
                     </Typography>
                 </Card>
                 <Button onClick={addGame} sx={{ border: 'solid black', height: 50, width: 100 }}> Add</Button>
-                <Link to='/Home'>  <Button sx={{ border: 'solid black', height: 50, width: 100 }}> cancel</Button></Link>
+                <Link to='/AddGames'>  <Button sx={{ border: 'solid black', height: 50, width: 100 }}> cancel</Button></Link>
                 <Stack sx={{ display: alertVisible ? 'flex' : 'none', width: '100%' }} spacing={2}>
                     <Alert sx={{ backgroundColor: 'inherit', color: 'white', border: 'solid black' }} severity="success">Game Is Added</Alert>
                 </Stack>
