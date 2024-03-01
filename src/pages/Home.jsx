@@ -6,49 +6,22 @@ import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
 import InputBase from '@mui/material/InputBase';
 import Badge from '@mui/material/Badge';
-import MenuItem from '@mui/material/MenuItem';
-import Menu from '@mui/material/Menu';
-import MenuIcon from '@mui/icons-material/Menu';
 import SearchIcon from '@mui/icons-material/Search';
 import AccountCircle from '@mui/icons-material/AccountCircle';
 import MailIcon from '@mui/icons-material/Mail';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import MoreIcon from '@mui/icons-material/MoreVert';
-import { blue } from '@mui/material/colors';
-import { Grid, Card, CardMedia, CardContent, Container, FormControl, FormLabel } from '@mui/material';
+import { Card, CardMedia, CardContent, Container, FormControl} from '@mui/material';
 import React, { useState, useEffect } from 'react';
 import CardActions from '@mui/material/CardActions';
 import Button from '@mui/material/Button';
-import List from '@mui/material/List';
-import ListItem from '@mui/material/ListItem';
-
 import './Home.css';
 import { Link } from 'react-router-dom';
-
 import { get } from '../utils/httpClient'
-import { post } from '../utils/httpClient'
 import { useNavigate } from 'react-router-dom';
 
-// const data = await get('/game')
 
-function renderMenu() {
-  const menuId = 'primary-search-account-menu';
-  return (
 
-    <Container sx={{ display: 'flex', flexDirection: 'column', padding: '15%' }}>
-      <Link to="/Profile"><MenuItem>Profile</MenuItem></Link>
-
-      <Link to="/"> <MenuItem>SignOut</MenuItem> </Link>
-    </Container>
-  );
-}
-
-function renderMobileMenu() {
-  const mobileMenuId = 'primary-search-account-menu-mobile';
-  return (
-    <div></div>
-  );
-}
 
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
@@ -95,21 +68,10 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 
 
 export default function PrimarySearchAppBar() {
-  // const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
-  // const [mobileMoreAnchorEl, setMobileMoreAnchorEl] =
-  //   React.useState<null | HTMLElement>(null);
-
-  // const isMenuOpen = Boolean(anchorEl);
-  // const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
-
-  const [title, setTitle] = useState('');
   const [search, setSearch] = useState('');
-
   const [userId, setUserId] = useState('');
   const [alertVisible, setAlertVisible] = useState(false);
-
   const [height, setHeight] = useState(50)
-
   const [game1, setGame1] = useState('')
   const [game2, setGame2] = useState('')
   const [game3, setGame3] = useState('')
@@ -132,14 +94,12 @@ export default function PrimarySearchAppBar() {
   const fetchData = async () => {
     try {
       const data1 = await get(`/game`);
-
       setImage1(data1[data1.length - 1].image_base64)
       setTitle1(data1[data1.length - 1].title)
       setImage2(data1[data1.length - 2].image_base64)
       setTitle2(data1[data1.length - 2].title)
       setGameId4(data1[data1.length - 1].id)
       setGameId5(data1[data1.length - 2].id)
-      console.log(data1);
     } catch (error) {
       console.error('Error fetching data:', error);
 
@@ -147,32 +107,24 @@ export default function PrimarySearchAppBar() {
   };
 
   useEffect(() => {
-    console.log(title1);
-    console.log(title2);
   }, [title1, title2, image1, image2, gameId4, gameId5]);
 
   useEffect(() => {
     const storedUserId = localStorage.getItem('user_id');
-    console.log(storedUserId);
-
     if (storedUserId) {
       setUserId(storedUserId);
     }
   }, []);
 
   useEffect(() => {
-
     isAdmin();
   }, [userId]);
 
   const isAdmin = async () => {
     let i = 0;
     const data = await get('/users')
-
     while (i < data.length) {
-
       if (data[i].user_id == userId) {
-        console.log(data[i - 1].admin)
         if (data[i - 1].admin) {
           setAlertVisible(true);
         }
@@ -184,8 +136,7 @@ export default function PrimarySearchAppBar() {
   const mobileMenuId = 'primary-search-account-menu-mobile';
 
   const handleProfileMenuOpen = (event) => {
-    renderMenu();
-    renderMobileMenu();
+   
   };
 
   const handleSearch = (event) => {
@@ -196,36 +147,30 @@ export default function PrimarySearchAppBar() {
     setGameId1("");
     setGameId2("");
     setGameId3("");
-
     getGames();
   }
   const navigate = useNavigate();
 
   const handlegame1 = () => {
     localStorage.setItem('game_id', gameId1);
-
     navigate('/Games');
   }
 
   const handlegame2 = () => {
     localStorage.setItem('game_id', gameId2);
-
     navigate('/Games');
   }
 
   const handlegame3 = () => {
     localStorage.setItem('game_id', gameId3);
-
     navigate('/Games');
   }
 
   const handlegame4 = () => {
-    console.log("-------------")
     localStorage.setItem('game_id', gameId4);
   }
 
   const handlegame5 = () => {
-    console.log("-------------")
     localStorage.setItem('game_id', gameId5);
   }
 
@@ -344,8 +289,7 @@ export default function PrimarySearchAppBar() {
             </Box>
           </Toolbar>
         </AppBar>
-        {renderMobileMenu}
-        {renderMenu}
+       
       </Box>
 
 
