@@ -24,16 +24,20 @@ import { get } from '../../utils/httpClient'
 import { useNavigate } from 'react-router-dom';
 
 export default function Login() {
+    const [user, setUser] = useState('');
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
+
+
     const [showPassword, setShowPassword] = React.useState(false);
+
     const loadUser = async () => {
         const data = await get('/users')
         setUser(data);
     }
     useEffect(() => {
         loadUser()
-    }, [])
+    }, [user])
 
     const handleClickShowPassword = () => setShowPassword((show) => !show);
     const linkStyle = {
@@ -84,14 +88,12 @@ export default function Login() {
 
     const handleLogin = async () => {
 
-        const data = await get('/users')
         let i = 0;
-        while (i < data.length) {
+        while (i < user.length) {
 
            
-            if (data[i].username == username && data[i].password == password) {
-                localStorage.setItem('user_id', data[i].user_id);
-                const storedUserId = localStorage.getItem('user_id');
+            if (user[i].username == username && user[i].password == password) {
+                localStorage.setItem('user_id', user[i].user_id);
                 navigate('/Home')
             }
             i++;
