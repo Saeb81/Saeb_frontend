@@ -34,10 +34,7 @@ import { post } from '../../utils/httpClient'
 import { useNavigate } from 'react-router-dom';
 
 function GameCard({ base64, title, id }) {
-
-
   const navigate = useNavigate();
-
   const handleClick = () => {
     localStorage.setItem('game_id', id);
     navigate('/Games');
@@ -72,31 +69,19 @@ function GameCard({ base64, title, id }) {
 
 
 export default function Library() {
-
-
-
   const fetchData = async () => {
     try {
-      console.log('Front End - user_id:', localStorage.getItem('user_id'));
-
       const data = await get(`/view?userId=${localStorage.getItem('user_id')}`);
       setUserGames(data);
-      console.log(data);
     } catch (error) {
       console.error('Error fetching data:', error);
-
     }
   };
 
   useEffect(() => {
-
     fetchData();
   }, []);
 
-  // useEffect(() => {
-
-  //       GameCard(data1[storedUserId-1].image_base64,data1[storedUserId-1].title,data1[storedUserId-1].description);
-  // }, [])
 
   const [userGames, setUserGames] = useState([]);
 

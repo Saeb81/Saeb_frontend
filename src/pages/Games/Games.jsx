@@ -42,7 +42,6 @@ function Comments({ comment, username, game_id }) {
                 {username} :
             </Typography>
             <Typography>
-
                 {comment}
             </Typography>
         </Typography>
@@ -51,85 +50,45 @@ function Comments({ comment, username, game_id }) {
 
 
 export default function Profile() {
-    const [data, setData] = useState([]);
+    const [game, setGame] = useState({});
     const [game_id, setGameId] = useState(0);
-    const [image_base64, setImage_base64] = useState('');
-    const [genre, setGenre] = useState('');
-    const [rate, setRate] = useState(0);
-    const [description, setDescription] = useState('');
-    const [title, setTitle] = useState(0);
-    const [data3, setData3] = useState([]);
-    const [data4, setData4] = useState([]);
+    const [user_id, setUserId] = useState(0);
+    const [comments, setComments] = useState([]);
+    const [user, setUser] = useState({});
     const [comment, setComment1] = useState('');
     const [alertVisible, setAlertVisible] = useState(false);
     const navigate = useNavigate();
 
     useEffect(() => {
-        const storedGameId = localStorage.getItem('game_id');
-        setGameId(storedGameId);
         fetchData();
-        fetchData1();
-        fetchData2();
-
-    }, []);
-
-    useEffect(() => {
-        if (data.length > 0 && game_id > 0) {
-            setTitle(data[game_id - 1].title);
-            setGenre(data[game_id - 1].genre);
-            setImage_base64(data[game_id - 1].image_base64);
-            setRate(data[game_id - 1].rate);
-            setDescription(data[game_id - 1].description);
-
-
-        }
-    }, [data, game_id]);
+    }, [game, comments, user, game_id]);
 
     const fetchData = async () => {
-
         try {
+            const storedGameId = localStorage.getItem('game_id');
+            const storedUserId = localStorage.getItem('user_id');
+            setGameId(storedGameId);
+            setUserId(storedUserId);
             const data1 = await get('/game');
-            setData(data1);
+            setGame(data1[storedGameId - 1]);
+            const data2 = await get('/comments');
+            setComments(data2);
+            const data5 = await get('/users');
+            setUser(data5[storedUserId-1]);
         } catch (error) {
 
         }
     }
 
-    const fetchData1 = async () => {
-
-        try {
-            const data1 = await get('/comments');
-            setData3(data1);
-        } catch (error) {
-
-        }
-    }
-
-    const fetchData2 = async () => {
-
-        try {
-            const data1 = await get('/users');
-            setData4(data1);
-        } catch (error) {
-
-        }
-    }
     const handleComment = (event) => {
         setComment1(event.target.value)
     }
 
     const handlecomment1 = async () => {
-        const data1 = await get('/comments');
-        const comment_id = data1.length + 1;
-        const user_id = localStorage.getItem('user_id');
-        const username = data4[user_id - 1].username
-        console.log(username);
-        console.log(data1.length + 1);
+       
+        const comment_id = comments.length + 1;
+        const username = user.username
         await post('/comments', { username, comment, comment_id, user_id, game_id });
-        setAlertVisible(true);
-        setTimeout(() => {
-            setAlertVisible(false);
-        }, 3000);
         navigate('/Games')
     }
 
@@ -143,26 +102,23 @@ export default function Profile() {
                 }}>
                     <CardMedia
                         sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', height: 200, width: 300 }}
-                        image={image_base64}
+                        image={game.image_base64}
                         title="Game Image"
                         component='img'
                     />
                     <CardContent sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
                         <Typography color={'#1976d2'} gutterBottom variant="h5" component="div">
-                            {title}
-
+                            {game.title}
                         </Typography>
                         <Typography color={'#1976d2'} gutterBottom variant="h5" component="div">
-                            rate : {rate}/10
+                            rate : {game.rate}/10
                         </Typography>
                         <Typography color={'#1976d2'} gutterBottom variant="h5" component="div">
-                            {genre}
+                            {game.genre}
                         </Typography>
                         <Link to="/Buy" > <Button size="small">Buy</Button></Link>
                     </CardContent>
                     <CardActions>
-
-
                     </CardActions>
                 </Card>
 
@@ -171,7 +127,7 @@ export default function Profile() {
                 </Typography>
                 <Typography color={'#1976d2'} gutterBottom variant="h6" component="div">
 
-                    {description}
+                    {game.description}
                 </Typography>
                 <Typography sx={{ display: 'flex', flexDirection: 'row' }}>
                     <TextField onChange={handleComment} sx={{ width: 500 }} label="Write a Comment">
@@ -179,7 +135,7 @@ export default function Profile() {
                     <Button onClick={handlecomment1}>send</Button>
                 </Typography>
                 <Container sx={{ border: 'solid black', height: 'auto' }}>
-                    {data3.slice().reverse().map((comments, index) => (
+                    {comments.slice().reverse().map((comments, index) => (
                         <Comments
                             key={index}
                             comment={comments.comment}
@@ -188,13 +144,6 @@ export default function Profile() {
                         />
                     ))}
                 </Container>
-
-
-                <Stack sx={{ display: alertVisible ? 'flex' : 'none', width: '100%' }} spacing={2}>
-                    <Alert sx={{ backgroundColor: 'inherit', color: 'white', border: 'solid black' }} severity="success">check your mail box.</Alert>
-                </Stack>
-
-
             </Box>
         </Container>
     </div>
