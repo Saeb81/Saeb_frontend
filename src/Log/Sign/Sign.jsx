@@ -38,7 +38,7 @@ import { useNavigate } from 'react-router-dom';
 
 
 export default function Sign() {
-
+    const [user, setUser] = useState('');
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [email, setEmail] = useState('');
@@ -50,7 +50,6 @@ export default function Sign() {
     let text3 = "Already Exist"
     let text4 = "This Username"
 
-    const [loggedInUser, setLoggedInUser] = useState(null);
 
     const [showPassword, setShowPassword] = React.useState(false);
 
@@ -58,12 +57,19 @@ export default function Sign() {
     const linkStyle = {
         display: 'flex',
         alignItems: 'center',
-
     };
 
     const [alertVisible, setAlertVisible] = useState(false);
     const [alertVisible1, setAlertVisible1] = useState(false);
     const [alertVisible2, setAlertVisible2] = useState(false);
+
+    const loadUser = async () => {
+        const data = await get('/users')
+        setUser(data);
+    }
+    useEffect(() => {
+        loadUser()
+    }, [user])
 
 
     const failed = () => {
@@ -71,7 +77,6 @@ export default function Sign() {
         setAlertVisible1(false);
         setAlertVisible2(false);
     }
-
 
     const handleUserName = (event) => {
         setUsername(event.target.value)
@@ -81,30 +86,26 @@ export default function Sign() {
         setPassword(event.target.value)
     }
 
-
     const handleEmail = (event) => {
         setEmail(event.target.value)
     }
 
     const handleAge = (e) => {
         const inputAge = e.target.value;
-    const regex = /^[0-9]+$/;
-    console.log("Current input value:", inputAge);
-    
-    if (!regex.test(inputAge)) {
-        console.log("Invalid input detected.");
-        setError(true);
-    } else {
-        const age = parseInt(inputAge, 10);
-        if (age < 5 || age > 99) {
-            console.log("Age must be between 5 and 99.");
+        const regex = /^[0-9]+$/;
+
+        if (!regex.test(inputAge)) {
+
             setError(true);
         } else {
-            console.log("Valid input detected.");
-            setError(false);
-            setAge(inputAge);
+            const age = parseInt(inputAge, 10);
+            if (age < 5 || age > 99) {
+                setError(true);
+            } else {
+                setError(false);
+                setAge(inputAge);
+            }
         }
-    }
     }
 
     const DemoPaper = styled(Paper)(({ theme }) => ({
@@ -119,23 +120,15 @@ export default function Sign() {
 
     const handleSign = async () => {
         let i = 0;
-        console.log("----------------------------");
         if (username === "" || password === "" || email === "" || age === "") {
-            console.log(username)
             setAlertVisible(true)
             setAlertVisible1(true)
             return;
         }
 
-        const data = await get('/users')
-
-        while (i < data.length) {
+        while (i < user.length) {
             console.log("batman")
-            if (data[i].username === username) {
-                console.log(data[i].username)
-                console.log(username)
-                console.log(data[i].password)
-                console.log(password)
+            if (user[i].username === username) {
                 setAlertVisible(true)
                 setAlertVisible2(true)
                 break;
@@ -144,14 +137,10 @@ export default function Sign() {
 
             i++;
         }
-        console.log(i)
-        console.log(error)
-        if (!error && i >= data.length) {
-            const user_id = data.length + 1;
-            post('/users', { username, email, password, age,user_id})
+        if (!error && i >= user.length) {
+            const user_id = user.length + 1;
+            post('/users', { username, email, password, age, user_id })
             localStorage.setItem('user_id', user_id);
-            const storedUserId = localStorage.getItem('user_id');
-            console.log(storedUserId)
             navigate('/Home')
         }
 
@@ -159,18 +148,13 @@ export default function Sign() {
     };
 
 
-
-
     return (
         <div className='page'>
             <div className="body" >
-
                 <Container sx={{ height: 350, display: 'flex', flexDirection: 'column' }}>
                     <Typography variant='h3' sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', borderTop: 5 }} > Sign</Typography>
-
                     <div>
                         <Box sx={{ display: 'flex', flexDirection: 'column', m: 1, width: '25ch', alignItems: 'flex-end' }}>
-
                             <Box display={'flex'}>
                                 <AccountCircle sx={{ color: 'action.active', mr: 1, my: 0.5 }} />
                                 <TextField id="input-with-sx" label="UserName" variant="standard" onChange={handleUserName} />
