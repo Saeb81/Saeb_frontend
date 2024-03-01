@@ -100,7 +100,7 @@ export default function Profile() {
     const addGame = async () => {
         await fetchData();
 
-        if (title == '' || rate == 0 || genre == '' || description == '') {
+        if (error ||title == '' || rate == 0 || genre == '' || description == '') {
             setAlertVisible1(true);
             setTimeout(() => {
                 setAlertVisible1(false);
