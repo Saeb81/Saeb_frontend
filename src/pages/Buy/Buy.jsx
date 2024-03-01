@@ -71,7 +71,7 @@ export default function Library() {
         setTimeout(() => {
             setAlertVisible(false);
         }, 3000);
-        navigate('/Library')
+        navigate('/Home')
     }
 
 

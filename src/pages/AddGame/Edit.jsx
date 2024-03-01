@@ -58,8 +58,6 @@ export default function Profile() {
             setImage_base64(data[gameId - 1].image_base64);
             setRate(data[gameId - 1].rate);
             setDescription(data[gameId - 1].description);
-
-
         }
     }, [data, gameId]);
 
