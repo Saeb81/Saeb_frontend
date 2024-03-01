@@ -46,14 +46,9 @@ export default function Profile() {
 
 
     useEffect(() => {
-
         const storedGameId = localStorage.getItem('game_id');
-
         setGameId(storedGameId);
-
         fetchData();
-
-
     }, []);
 
     useEffect(() => {
@@ -81,6 +76,7 @@ export default function Profile() {
 
     return <div className='games'>
         <Container sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+            <Link to="/AddGames"><Typography sx={{ display: 'flex', color: 'white' }} >Back</Typography></Link>
             <Box sx={{ display: 'flex', flexDirection: 'column', backgroundColor: 'inherit', justifyContent: 'center', alignItems: 'center', height: '720px' }}>
 
                 <Card sx={{

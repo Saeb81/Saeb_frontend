@@ -126,7 +126,7 @@ export default function PrimarySearchAppBar() {
   const [alertVisible, setAlertVisible] = useState(false);
   const [game, setGame] = useState([])
   const [searchGame, setSearchGame] = useState([])
-  
+
 
   useEffect(() => {
     fetchData();
@@ -189,8 +189,7 @@ export default function PrimarySearchAppBar() {
   }
 
   return (
-    <div className='home' >
-
+    <div className='home'>
       <Search sx={{ backgroundColor: 'darkslategray', height: height, display: 'flex', flexDirection: 'column' }}>
         <SearchIconWrapper>
           <SearchIcon />
@@ -207,7 +206,6 @@ export default function PrimarySearchAppBar() {
             id={game.id}
           />
         ))}
-
       </Search>
 
       <Box sx={{ display: 'flex', flexGrow: 1, }}>
@@ -218,21 +216,17 @@ export default function PrimarySearchAppBar() {
                 variant="h6"
                 noWrap
                 component="div"
-                sx={{ display: { xs: 'none', sm: 'block' } }}
-              >
+                sx={{ display: { xs: 'none', sm: 'block' } }}>
                 <Link to="/Home"><Typography sx={{ display: 'flex', color: 'white' }} >MaveShop</Typography></Link>
               </Typography>
-
             </Container>
 
             <Container sx={{ maxWidth: '300px', display: 'flex', flexDirection: 'row', justifyContent: 'space-around' }}>
-
               <Link to="/Store"><Typography sx={{ display: 'flex', color: 'white' }} >Store</Typography></Link>
               <Link to="/Library"><Typography sx={{ display: 'flex', color: 'white' }} >Library</Typography></Link>
               <Link to="/AddGames"><Typography sx={{ display: alertVisible ? 'flex' : 'none', color: 'white' }} >Edit Games</Typography></Link>
               <Link to="/Profile"><Typography sx={{ display: 'flex', color: 'white' }} >Profile</Typography></Link>
               <Link to="/"> <Typography sx={{ display: 'flex', color: 'white' }} >SignOut</Typography> </Link>
-
             </Container>
 
             <Box sx={{ flexGrow: 1 }} />

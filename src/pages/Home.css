@@ -1,6 +1,6 @@
 .home
 {
      background-image: url("/home/ubuntu/Saeb_frontend/c.jpg");
-    height: 900px;
+    height: auto;
     padding: 10%;
 }

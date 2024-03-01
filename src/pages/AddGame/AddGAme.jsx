@@ -34,8 +34,6 @@ import { post } from '../../utils/httpClient'
 import { useNavigate } from 'react-router-dom';
 
 function GameCard({ base64, title, id }) {
-
-
   const navigate = useNavigate();
 
   const handleClick = () => {
@@ -70,10 +68,12 @@ function GameCard({ base64, title, id }) {
   );
 }
 
-
 export default function Library() {
-  let storedUserId = 0;
-
+  const [userGames, setUserGames] = useState([]);
+  useEffect(() => {
+   
+    fetchData();
+  }, [userGames]);
 
   const fetchData = async () => {
     try {
@@ -85,21 +85,8 @@ export default function Library() {
     }
   };
 
-  useEffect(() => {
-    storedUserId = localStorage.getItem('user_id');
-    fetchData();
-  }, []);
-
-  // useEffect(() => {
-
-  //       GameCard(data1[storedUserId-1].image_base64,data1[storedUserId-1].title,data1[storedUserId-1].description);
-  // }, [])
-
-  const [userGames, setUserGames] = useState([]);
-
-
   return <div className='store'>
-   <Link to="/Home"><Typography sx={{ display: 'flex', color: 'white' }} >MaveShop</Typography></Link>
+    <Link to="/Home"><Typography sx={{ display: 'flex', color: 'white' }} >MaveShop</Typography></Link>
     <Button sx={{ display: 'flex', justifyContent: 'center', backgroundColor: 'Black' }}>      <Link to="/Add" >   Add Game </Link></Button>
 
     <FormLabel sx={{ display: 'flex', justifyContent: 'center', backgroundColor: 'white' }}> Games List</FormLabel>

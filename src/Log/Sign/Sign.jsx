@@ -95,7 +95,6 @@ export default function Sign() {
         const regex = /^[0-9]+$/;
 
         if (!regex.test(inputAge)) {
-
             setError(true);
         } else {
             const age = parseInt(inputAge, 10);
@@ -132,7 +131,6 @@ export default function Sign() {
                 setAlertVisible(true)
                 setAlertVisible2(true)
                 break;
-
             }
 
             i++;
