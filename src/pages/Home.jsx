@@ -11,7 +11,7 @@ import AccountCircle from '@mui/icons-material/AccountCircle';
 import MailIcon from '@mui/icons-material/Mail';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import MoreIcon from '@mui/icons-material/MoreVert';
-import { Card, CardMedia, CardContent, Container, FormControl} from '@mui/material';
+import { Card, CardMedia, CardContent, Container, FormControl } from '@mui/material';
 import React, { useState, useEffect } from 'react';
 import CardActions from '@mui/material/CardActions';
 import Button from '@mui/material/Button';
@@ -19,6 +19,58 @@ import './Home.css';
 import { Link } from 'react-router-dom';
 import { get } from '../utils/httpClient'
 import { useNavigate } from 'react-router-dom';
+
+function GameCard({ base64, title, id }) {
+  const navigate = useNavigate();
+  const handleClick = () => {
+    localStorage.setItem('game_id', id);
+    navigate('/Games');
+  };
+  const handleClick1 = () => {
+    localStorage.setItem('game_id', id);
+    navigate('/Buy');
+  };
+  return (
+
+    <FormControl sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: 400, marginTop: 5 }}>
+      <Card sx={{
+        display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', width: 310, height: 1000,
+        border: 'groove', backgroundColor: 'inherit'
+      }}>
+        <CardMedia
+          sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', padding: '5%', height: 200, width: 300 }}
+          image={base64}
+          title="Game Image"
+          component='img'
+        />
+        <CardContent>
+          <Typography color={'#1976d2'} gutterBottom variant="h5" component="div">
+            {title}
+          </Typography>
+
+        </CardContent>
+        <CardActions>
+          <Button onClick={handleClick1} size="small">Buy</Button>
+
+          <Button onClick={handleClick} size="small">Read More</Button>
+
+        </CardActions>
+      </Card>
+    </FormControl>
+  );
+}
+
+function SearchCard({ base64, title, id }) {
+  const navigate = useNavigate();
+  const handleClick = () => {
+    localStorage.setItem('game_id', id);
+    navigate('/Games');
+  };
+
+  return (
+    <Button onClick={handleClick}> {title}</Button>
+  );
+}
 
 
 
@@ -69,23 +121,12 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 
 export default function PrimarySearchAppBar() {
   const [search, setSearch] = useState('');
+  const [height, setHeight] = useState(50)
   const [userId, setUserId] = useState('');
   const [alertVisible, setAlertVisible] = useState(false);
-  const [height, setHeight] = useState(50)
-  const [game1, setGame1] = useState('')
-  const [game2, setGame2] = useState('')
-  const [game3, setGame3] = useState('')
-  const [gameId1, setGameId1] = useState('')
-  const [gameId2, setGameId2] = useState('')
-  const [gameId3, setGameId3] = useState('')
-  const [gameId4, setGameId4] = useState('')
-  const [gameId5, setGameId5] = useState('')
-  const [title1, setTitle1] = useState('')
-  const [title2, setTitle2] = useState('')
-  const [image1, setImage1] = useState('')
-  const [image2, setImage2] = useState('')
-
-
+  const [game, setGame] = useState([])
+  const [searchGame, setSearchGame] = useState([])
+  
 
   useEffect(() => {
     fetchData();
@@ -93,28 +134,22 @@ export default function PrimarySearchAppBar() {
 
   const fetchData = async () => {
     try {
-      const data1 = await get(`/game`);
-      setImage1(data1[data1.length - 1].image_base64)
-      setTitle1(data1[data1.length - 1].title)
-      setImage2(data1[data1.length - 2].image_base64)
-      setTitle2(data1[data1.length - 2].title)
-      setGameId4(data1[data1.length - 1].id)
-      setGameId5(data1[data1.length - 2].id)
+      const data = await get(`/game`);
+      setGame(data);
+
     } catch (error) {
       console.error('Error fetching data:', error);
 
     }
   };
 
-  useEffect(() => {
-  }, [title1, title2, image1, image2, gameId4, gameId5]);
 
   useEffect(() => {
     const storedUserId = localStorage.getItem('user_id');
     if (storedUserId) {
       setUserId(storedUserId);
     }
-  }, []);
+  }, [userId]);
 
   useEffect(() => {
     isAdmin();
@@ -136,79 +171,26 @@ export default function PrimarySearchAppBar() {
   const mobileMenuId = 'primary-search-account-menu-mobile';
 
   const handleProfileMenuOpen = (event) => {
-   
+
   };
 
   const handleSearch = (event) => {
     setSearch(event.target.value);
-    setGame1("");
-    setGame2("");
-    setGame3("");
-    setGameId1("");
-    setGameId2("");
-    setGameId3("");
     getGames();
   }
-  const navigate = useNavigate();
-
-  const handlegame1 = () => {
-    localStorage.setItem('game_id', gameId1);
-    navigate('/Games');
-  }
-
-  const handlegame2 = () => {
-    localStorage.setItem('game_id', gameId2);
-    navigate('/Games');
-  }
-
-  const handlegame3 = () => {
-    localStorage.setItem('game_id', gameId3);
-    navigate('/Games');
-  }
-
-  const handlegame4 = () => {
-    localStorage.setItem('game_id', gameId4);
-  }
-
-  const handlegame5 = () => {
-    localStorage.setItem('game_id', gameId5);
-  }
-
-
 
   const getGames = async () => {
     setHeight(50);
-
     if (search != '') {
-      setHeight(50);
-
-      const data2 = await get(`/title?search=${search}`);
-
-      let i = 0;
-      while (i < 3 && i < data2.length) {
-
-        setHeight(150);
-
-
-        if (i == 0) {
-          setGame1(data2[0].title)
-          setGameId1(data2[0].id)
-        }
-        if (i == 1) {
-          setGame2(data2[1].title)
-          setGameId2(data2[1].id)
-        }
-        if (i == 2) {
-          setGame3(data2[2].title)
-          setGameId3(data2[2].id)
-        }
-        i++;
-      }
+      const data1 = await get(`/title?search=${search}`);
+      setSearchGame(data1);
+      setHeight(150);
     }
   }
 
   return (
     <div className='home' >
+
       <Search sx={{ backgroundColor: 'darkslategray', height: height, display: 'flex', flexDirection: 'column' }}>
         <SearchIconWrapper>
           <SearchIcon />
@@ -217,11 +199,16 @@ export default function PrimarySearchAppBar() {
           placeholder="Search…"
           inputProps={{ 'aria-label': 'search' }}
         />
-        <Button onClick={handlegame1}> {game1}</Button>
-        <Button onClick={handlegame2}> {game2}</Button>
-        <Button onClick={handlegame3}> {game3}</Button>
-      </Search>
+        {searchGame.slice().reverse().map((game, index) => (
+          <SearchCard
+            key={3}
+            title={game.title}
+            base64={game.image_base64}
+            id={game.id}
+          />
+        ))}
 
+      </Search>
 
       <Box sx={{ display: 'flex', flexGrow: 1, }}>
         <AppBar position="static">
@@ -289,56 +276,15 @@ export default function PrimarySearchAppBar() {
             </Box>
           </Toolbar>
         </AppBar>
-       
       </Box>
-
-
-
-
-      <FormControl sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: 400, marginTop: 5 }}>
-        <Card sx={{
-          display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', width: 310, height: 1000,
-          border: 'groove', backgroundColor: 'inherit'
-        }}>
-          <CardMedia
-            sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', padding: '5%', height: 200, width: 300 }}
-            image={image1}
-            title="green iguana"
-          />
-          <CardContent>
-            <Typography gutterBottom variant="h5" component="div">
-              {title1}
-            </Typography>
-
-          </CardContent>
-          <CardActions>
-            <Link to="/Buy" > <Button onClick={handlegame4} size="small">Buy</Button></Link>
-            <Link to="/Games">  <Button onClick={handlegame4} size="small">Read More</Button></Link>
-          </CardActions>
-        </Card>
-      </FormControl>
-      <FormControl sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: 400, marginTop: 5 }}>
-        <Card sx={{
-          display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', width: 310, height: 1000,
-          border: 'groove', backgroundColor: 'inherit'
-        }}>
-          <CardMedia
-            sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', padding: '5%', height: 200, width: 300 }}
-            image={image2}
-            title="green iguana"
-          />
-          <CardContent>
-            <Typography gutterBottom variant="h5" component="div">
-              {title2}
-            </Typography>
-
-          </CardContent>
-          <CardActions>
-            <Link to="/Buy" >   <Button onClick={handlegame5} size="small">Buy</Button></Link>
-            <Link to="/Games">  <Button onClick={handlegame5} size="small">Read More</Button></Link>
-          </CardActions>
-        </Card>
-      </FormControl>
+      {game.slice().reverse().map((game, index) => (
+        <GameCard
+          key={2}
+          base64={game.image_base64}
+          title={game.title}
+          id={game.id}
+        />
+      ))}
     </div>
   );
 }
