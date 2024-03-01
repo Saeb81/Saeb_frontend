@@ -49,29 +49,29 @@ export default function Profile() {
   useEffect(() => {
     profile();
     console.log("--------S------");
-}, []);
+  }, []);
 
-const profile = async () => {
+  const profile = async () => {
     try {
-        const data1 = await get('/users');
-        const userId = localStorage.getItem('user_id');
-        if (data1 && userId) {
-            const userIndex = parseInt(userId) - 1;
-            setUsername(data1[userIndex].username);
-            setPassword(data1[userIndex].password);
-            setEmail(data1[userIndex].email);
-        } 
+      const data1 = await get('/users');
+      const userId = localStorage.getItem('user_id');
+      if (data1 && userId) {
+        const userIndex = parseInt(userId) - 1;
+        setUsername(data1[userIndex].username);
+        setPassword(data1[userIndex].password);
+        setEmail(data1[userIndex].email);
+      }
     } catch (error) {
-      
-        console.error("Error fetching profile data:", error);
-    }
-}
 
-useEffect(() => {
+      console.error("Error fetching profile data:", error);
+    }
+  }
+
+  useEffect(() => {
     console.log("userName changed:", userName);
     console.log("password changed:", password);
     console.log("email changed:", email);
-}, [userName, password, email]);
+  }, [userName, password, email]);
 
 
 
@@ -94,6 +94,7 @@ useEffect(() => {
   }
 
   return <div className='setting'>
+    <Link to="/Home"><Typography sx={{ display: 'flex', color: 'white' }} >MaveShop</Typography></Link>
     <List sx={{ display: 'flex', flexDirection: 'row', backgroundColor: 'inherit', borderRadius: 5, justifyContent: 'space-evenly', height: 1080 }}>
 
       <List sx={{

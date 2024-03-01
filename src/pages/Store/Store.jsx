@@ -49,6 +49,7 @@ function GameCard({ base64, title, id }) {
     navigate('/Buy');
   };
   return (
+    
     <FormControl sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: 400, marginTop: 5 }}>
       <Card sx={{
         display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', width: 310, height: 1000,
