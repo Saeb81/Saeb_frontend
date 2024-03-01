@@ -272,7 +272,7 @@ export default function PrimarySearchAppBar() {
           </Toolbar>
         </AppBar>
       </Box>
-      {game.slice(-2).map((game, index) => (
+      {game.slice(-2).reverse.map((game, index) => (
         <GameCard
           key={index}
           base64={game.image_base64}
